@@ -8,27 +8,37 @@ class App
 
     public function __construct()
     {
-        $url_construct = $this->parseURL();
+        $url = $this->parseURL();
 
-        // controller
-        if (file_exists('../app/controllers/' . $url_construct[0] . '.php')) {
-            $this->controller = $url_construct[0];
-            unset($url_construct[0]);
+        if ($url == NULL) {
+            # code...
+            $url[0] = $this->controller;
+        } else {
+            // controller
+            if (file_exists('../app/controllers/' . $url[0] . '.php')) {
+                $this->controller = $url[0];
+                unset($url[0]);
+            } else {
+                # code...
+
+            }
         }
+
+
         require_once '../app/controllers/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
         // method
-        if (isset($url_construct[1])) {
-            if (method_exists($this->controller, $url_construct[1])) {
-                $this->method = $url_construct[1];
-                unset($url_construct[1]);
+        if (isset($url[1])) {
+            if (method_exists($this->controller, $url[1])) {
+                $this->method = $url[1];
+                unset($url[1]);
             }
         }
 
         // params
-        if (!empty($url_construct)) {
-            $this->params = array_values($url_construct);
+        if (!empty($url)) {
+            $this->params = array_values($url);
         }
 
         // jalankan controller dan method, serta kirimkan params jika ada
