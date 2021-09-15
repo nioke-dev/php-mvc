@@ -1,8 +1,8 @@
 <?php
 class Controller
 {
-    public function __construct()
+    public function view($view, $data = [])
     {
-        echo "Ini Adalah Class Controller yang dipanggil menggunakan Construct";
+        require_once '../app/views/' . $view . '.php';
     }
 }
